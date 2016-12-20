@@ -14,7 +14,7 @@ class User(db.Model):
     email = db.Column(db.String(64), nullable=False)
     password = db.Column(db.String(64), nullable=False)
     profile_img = db.Column(db.String(256), nullable=True)
-    created_at = db.Column(db.Datetime)
+    created_at = db.Column(db.DateTime)
 
     def __repr__(self):
         return "<User: {} {} {} Email: {}>".format(self.user_id,

@@ -1,0 +1,31 @@
+.navbar {
+    background-color: white;
+}
+
+#logo {
+    max-width: 30px
+}
+
+#cover-image {
+    max-height: 250px;
+    margin-top: 100px;
+    margin-bottom: 20px;
+}
+
+.loginButton, .signupButton, .aboutButton, input[type=submit] {
+    background-color: #ffffff;
+    padding: 7px 7px 7px 7px;
+    margin-bottom: 20px;
+    border-radius: 7px;
+    border: #272927 solid 2px;
+    color: #272927;
+    font-family: 'Ubuntu Condensed', sans-serif;
+}
+
+.loginButton:hover, .signupButton:hover, .aboutButton:hover, input[type=submit]:hover {
+    background-color: #272927;
+    border: #272927 solid 2px;
+    color: #ffffff;
+    font-family: 'Ubuntu Condensed', sans-serif;
+    text-decoration: none;
+}
