@@ -11,6 +11,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
+    username = db.Column(db.String(30), nullable=False, unique=True)
     email = db.Column(db.String(64), nullable=False)
     password = db.Column(db.String(64), nullable=False)
     profile_img = db.Column(db.String(256), nullable=True)
@@ -24,11 +25,12 @@ class User(db.Model):
                                                    )
 
     @classmethod
-    def add_new_user_to_db(cls, first_name, last_name, title, email, password, profile_img=None):
+    def add_new_user_to_db(cls, first_name, last_name, username, email, password, profile_img=None):
         """Creates a new user instance in the db. """
 
         user = User(first_name=first_name,
                     last_name=last_name,
+                    username=username,
                     email=email,
                     password=password,
                     profile_img=profile_img,
@@ -38,3 +40,9 @@ class User(db.Model):
         db.session.commit()
 
         return user
+
+    @classmethod
+    def get_user_by_username(cls, username):
+        """Given unique username, returns the user object. """
+
+        return User.query.filter_by(username=username)

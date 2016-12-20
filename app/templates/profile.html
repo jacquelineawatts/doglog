@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block title %} Profile {% endblock %}
+
+{% block body %}
+<h1>{{ current_user.first_name }} {{ current_user.last_name }}</h1>
+<h6>{{ current_user.username }}</a>
+{% endblock %}
