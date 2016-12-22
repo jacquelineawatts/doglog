@@ -260,6 +260,10 @@ ALTER TABLE ONLY users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_s
 --
 
 COPY activities (activity_id, activity, min_daily, max_daily) FROM stdin;
+1	#1	\N	\N
+2	#2	\N	\N
+3	food	1	2
+4	walk	\N	\N
 \.
 
 
@@ -267,7 +271,7 @@ COPY activities (activity_id, activity, min_daily, max_daily) FROM stdin;
 -- Name: activities_activity_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jacqui
 --
 
-SELECT pg_catalog.setval('activities_activity_id_seq', 1, false);
+SELECT pg_catalog.setval('activities_activity_id_seq', 4, true);
 
 
 --
@@ -290,6 +294,8 @@ SELECT pg_catalog.setval('entries_entry_id_seq', 1, false);
 --
 
 COPY pets (pet_id, first_name, last_name, animal, breed, birthdate, bio, profile_img) FROM stdin;
+1	Zoe	Watts	dog	dachshund	2012-01-01 00:00:00	\N	\N
+2	Cali	Watts	cat	calico	2008-01-01 00:00:00	\N	\N
 \.
 
 
@@ -297,7 +303,7 @@ COPY pets (pet_id, first_name, last_name, animal, breed, birthdate, bio, profile
 -- Name: pets_pet_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jacqui
 --
 
-SELECT pg_catalog.setval('pets_pet_id_seq', 1, false);
+SELECT pg_catalog.setval('pets_pet_id_seq', 2, true);
 
 
 --
@@ -305,6 +311,10 @@ SELECT pg_catalog.setval('pets_pet_id_seq', 1, false);
 --
 
 COPY pets_users (petuser_id, user_id, pet_id, role) FROM stdin;
+1	1	1	secondary
+2	2	1	primary
+3	1	2	secondary
+4	2	2	primary
 \.
 
 
@@ -312,7 +322,7 @@ COPY pets_users (petuser_id, user_id, pet_id, role) FROM stdin;
 -- Name: pets_users_petuser_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jacqui
 --
 
-SELECT pg_catalog.setval('pets_users_petuser_id_seq', 1, false);
+SELECT pg_catalog.setval('pets_users_petuser_id_seq', 4, true);
 
 
 --
@@ -320,6 +330,8 @@ SELECT pg_catalog.setval('pets_users_petuser_id_seq', 1, false);
 --
 
 COPY users (user_id, first_name, last_name, username, email, password, profile_img, created_at) FROM stdin;
+1	Jacqui	Watts	jacquelineawatts	jacqui@test.org	test	\N	\N
+2	Pam	Watts	pamrwatts	pam@test.org	test	\N	\N
 \.
 
 
@@ -327,7 +339,7 @@ COPY users (user_id, first_name, last_name, username, email, password, profile_i
 -- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jacqui
 --
 
-SELECT pg_catalog.setval('users_user_id_seq', 1, false);
+SELECT pg_catalog.setval('users_user_id_seq', 2, true);
 
 
 --
