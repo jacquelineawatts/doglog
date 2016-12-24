@@ -42,7 +42,31 @@ class User(db.Model):
         return user
 
     @classmethod
-    def get_user_by_username(cls, username):
-        """Given unique username, returns the user object. """
+    def get_user_by_user_id(cls, user_id):
+        """Given user id, returns the user object. """
 
-        return User.query.filter_by(username=username)
+        try:
+            return User.query.filter_by(user_id=user_id).one()
+
+        except NoResultFound:
+            return None
+
+        except MultipleResultsFound:
+            return None
+
+    def get_all_pets(self):
+        """Given a user, see all associated pets. """
+
+        pets = [user_pet.pet for user_pet in self.pets_users]
+        return pets
+
+
+if __name__ == '__main__':
+
+    from server import app
+
+    connect_to_db(app)
+    print "Connected to DB."
+
+    db.create_all()
+

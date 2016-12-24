@@ -14,7 +14,7 @@ def connect_to_db(app, db_uri="postgresql:///doglog"):
 
 if __name__ == '__main__':
 
-    from app.server import app
+    from server import app
 
     connect_to_db(app)
     print "Connected to DB."

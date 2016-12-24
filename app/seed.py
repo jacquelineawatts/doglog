@@ -1,8 +1,8 @@
-from model.model import connect_to_db, db
-from model.user import User
-from model.pet import Pet, PetUser
-from model.activity import Activity
-
+from model import connect_to_db, db
+from user import User
+from pet import Pet, PetUser
+from activity import Activity
+from datetime import date
 
 def load_seed_users_and_pets():
     """Sample users."""
@@ -29,7 +29,7 @@ def load_seed_users_and_pets():
                                 last_name='Watts',
                                 animal='dog',
                                 breed='dachshund',
-                                birthdate='',
+                                birthdate=date(2012, 01, 01),
                                 profile_img=None,
                                 )
 
@@ -37,7 +37,7 @@ def load_seed_users_and_pets():
                                  last_name='Watts',
                                  animal='cat',
                                  breed='calico',
-                                 birthdate='',
+                                 birthdate=date(2008, 01,01),
                                  profile_img=None,
                                  )
 

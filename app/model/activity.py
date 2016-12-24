@@ -30,3 +30,20 @@ class Activity(db.Model):
         db.session.commit()
 
         return activity
+
+    @classmethod
+    def get_all_activities(cls):
+
+        activities = Activity.query.all()
+
+        return activities
+
+
+if __name__ == '__main__':
+
+    from server import app
+
+    connect_to_db(app)
+    print "Connected to DB."
+
+    db.create_all()

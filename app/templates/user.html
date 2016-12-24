@@ -10,4 +10,10 @@
 <h1>{{ current_user.first_name }} {{ current_user.last_name }}</h1>
 <h6>@{{ current_user.username }}</a>
 
+<h4>My Pets: </h4>
+{% for pet in pets %}
+    <a href="/{{ current_user.username }}/{{ pet.first_name }}-{{pet.last_name}}">{{ pet.first_name }} {{ pet.last_name }}</a>
+    <br>
+{% endfor %}
+
 {% endblock %}

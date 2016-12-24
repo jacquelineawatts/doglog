@@ -1,6 +1,7 @@
 from model import connect_to_db, db
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 from flask import flash
+from user import User
 
 class Pet(db.Model):
     """Class for pets"""
@@ -43,6 +44,40 @@ class Pet(db.Model):
 
         return pet
 
+    @classmethod
+    def get_pet_by_id(cls, pet_id):
+        """Given a pet_id, returns the pet object. """
+
+        try:
+            return Pet.query.filter_by(pet_id=pet_id).one()
+
+        except NoResultFound:
+            return None
+
+        except MultipleResultsFound:
+            return None
+
+    @classmethod
+    def get_pets_by_user(cls, user_id):
+        """Given a users id, returns the associated pets. """
+
+        try:
+            return Pet.query.filter_by(user_id=user_id).all()
+
+        except NoResultFound:
+            return None
+
+    @classmethod
+    def get_pet_by_name_and_user(cls, user, first_name, last_name):
+        """Given a user and the pets name, return pet object."""
+
+        all_pets = user.get_all_pets()
+        for pet in all_pets:
+            if (pet.first_name == first_name) and (pet.last_name == last_name):
+                return pet
+            else:
+                return None
+
 
 class PetUser(db.Model):
     """Class for association table between users and pets."""
@@ -75,3 +110,14 @@ class PetUser(db.Model):
         db.session.commit()
 
         return pet_user
+
+
+if __name__ == '__main__':
+
+    from server import app
+
+    connect_to_db(app)
+    print "Connected to DB."
+
+    db.create_all()
+

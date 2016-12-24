@@ -7,5 +7,34 @@
 {% block title %} Pet Profile {% endblock %}
 
 {% block body %}
+<h1>{{ pet.first_name }} {{ pet.last_name }}</h1>
+<p><strong>Animal:</strong> {{ pet.animal }}</p>
+{% if pet.breed %}
+    <p><strong>Breed:</strong> {{ pet.breed }}</p>
+{% endif %}
+
+<p><strong>Birthdate:</strong> {{ pet.birthdate }}</p>
+<p>{{ pet.bio }}</p>
+
+<h6>Add New Entry:</h6>
+<form action='/add_entry' method='POST' id="entryForm">
+    <label for='activity'></label>
+    <select name='activity'>
+    {% for activity in activities %}
+        <option value='{{ activity.activity_id }}'>{{ activity.activity }}</option>  
+    {% endfor %}
+    </select>
+    <input type='hidden' name='pet_id' value='{{ pet.pet_id }}'>
+    <input type='submit' name='submit' value='Enter'>
+</form>
+
+<h6>Recent Entries: </h6>
+{% if entries %}
+    {% for entry in entries %}
+        {{ entry.occured_at }} --- {{ entry.user_id.username }} --- {{ entry.activity_id.activity }}
+    {% endfor %}
+{% else %}
+    <p>There are no entries for {{ pet.first_name }}.</p>
+{% endif %}
 
 {% endblock %}
