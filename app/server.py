@@ -28,13 +28,13 @@ def show_about_page():
     return render_template('about.html')
 
 
-@app.route('/profile/<username>')
+@app.route('/user/<username>')
 def show_profile(username):
     """Displays a user's profile. """
 
     current_user = User.get_user_by_username(username)
 
-    return render_template('profile.html', current_user=current_user)
+    return render_template('user.html', current_user=current_user)
 
 
 # --------------------------- PROFILE REGISTRATION -----------------------------
@@ -128,7 +128,7 @@ if __name__ == "__main__":
 
     app.debug = True
     connect_to_db(app)
-    # DebugToolbarExtension(app)
+    DebugToolbarExtension(app)
     app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
     app.run(host='127.0.0.1')
