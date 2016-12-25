@@ -20,7 +20,7 @@ class Entry(db.Model):
 
     user = db.relationship('User', backref='entries')
     pet = db.relationship('Pet', backref='entries')
-    activities = db.relationship('Activity', backref="entries")
+    activity = db.relationship('Activity', backref="entries")
 
     def __repr__(self):
         return "<User: {}, Pet: {}, Activity: {}>".format(self.user_id,
@@ -29,12 +29,13 @@ class Entry(db.Model):
                                                           )
 
     @classmethod
-    def add_new_entry_to_db(cls, user_id, pet_id, activity_id, occurred_at, notes=None):
+    def add_new_entry_to_db(cls, user_id, pet_id, activity_id, occurred_at, logged_at, notes=None):
 
         entry = Entry(user_id=user_id,
                       pet_id=pet_id,
                       activity_id=activity_id,
                       occurred_at=occurred_at,
+                      logged_at=logged_at,
                       notes=notes,
                       )
 
@@ -50,7 +51,8 @@ class Entry(db.Model):
             return Entry.query.filter_by(pet_id=pet.pet_id).all()
 
         except NoResultFound:
-          return None
+            return None
+
 
 if __name__ == '__main__':
 

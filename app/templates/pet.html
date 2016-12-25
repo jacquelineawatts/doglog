@@ -31,7 +31,8 @@
 <h6>Recent Entries: </h6>
 {% if entries %}
     {% for entry in entries %}
-        {{ entry.occured_at }} --- {{ entry.user_id.username }} --- {{ entry.activity_id.activity }}
+        {{ entry.occurred_at }} --- {{ entry.user.username }} --- {{ entry.activity.activity }}
+        <br>
     {% endfor %}
 {% else %}
     <p>There are no entries for {{ pet.first_name }}.</p>

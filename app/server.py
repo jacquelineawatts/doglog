@@ -42,9 +42,14 @@ def show_profile(username):
 def show_pet(username, first_name, last_name):
     """Displays a pet's profile. """
 
+    print 'UN: ', username
+    print 'FN: ', first_name
+    print 'LN: ', last_name
     current_user = User.get_user_by_user_id(session['user_id'])
+    print 'CU:', current_user
     current_pet = Pet.get_pet_by_name_and_user(current_user, first_name, last_name)
     activities = Activity.get_all_activities()
+    print 'CURRENT PET: ', current_pet
     entries = Entry.get_all_entries(current_pet)
 
     return render_template('pet.html', pet=current_pet, entries=entries, user=current_user, activities=activities)
@@ -58,11 +63,13 @@ def add_new_entry():
     pet_id = request.form.get('pet_id').encode('latin-1')
     pet = Pet.query.get(pet_id)
     user_id = session['user_id']
+    user = User.query.get(user_id)
     occurred_at = datetime.now()
+    logged_at = datetime.now()
 
-    entry = Entry.add_new_entry_to_db(user_id, pet_id, activity_id, occurred_at)
+    entry = Entry.add_new_entry_to_db(user_id, pet_id, activity_id, occurred_at, logged_at)
 
-    return redirect('/{}/{}-{}').format(user.username, pet.first_name, pet.last_name)
+    return redirect('/{}/{}-{}'.format(user.username, pet.first_name, pet.last_name))
 
 # --------------------------- PROFILE REGISTRATION -----------------------------
 
@@ -96,9 +103,10 @@ def process_signup():
         user = User.add_user_to_db(email, password, first_name, last_name, username, profile_img)
         flash("Thank you for signing up for an account.")
         session['user_id'] = user.user_id
+        session['username'] = user.username
         session['img_upload_filepath'] = None
 
-        return redirect('/user/{}'.format(user.username))
+        return redirect('/{}'.format(user.username))
 
 # ------------------------------- LOGGING IN/OUT -------------------------------
 
@@ -131,7 +139,8 @@ def process_login():
         if user.password == password:
             flash("You've successfully logged in!")
             session['user_id'] = user.user_id
-            return redirect('/user/{}'.format(user.username))
+            session['username'] = user.username
+            return redirect('/{}'.format(user.username))
         else:
             flash("I'm sorry that password is incorrect. Please try again.")
             return redirect('/login')

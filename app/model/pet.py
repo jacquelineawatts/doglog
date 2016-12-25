@@ -71,12 +71,14 @@ class Pet(db.Model):
     def get_pet_by_name_and_user(cls, user, first_name, last_name):
         """Given a user and the pets name, return pet object."""
 
+        current_pet = None
         all_pets = user.get_all_pets()
         for pet in all_pets:
             if (pet.first_name == first_name) and (pet.last_name == last_name):
-                return pet
+                current_pet = pet
             else:
-                return None
+                continue
+        return current_pet
 
 
 class PetUser(db.Model):
