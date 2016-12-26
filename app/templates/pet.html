@@ -7,6 +7,7 @@
 {% block title %} Pet Profile {% endblock %}
 
 {% block body %}
+<img src='http://localhost:5000/{{ pet.profile_img }}'>
 <h1>{{ pet.first_name }} {{ pet.last_name }}</h1>
 <p><strong>Animal:</strong> {{ pet.animal }}</p>
 {% if pet.breed %}

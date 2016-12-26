@@ -15,6 +15,11 @@
 </head>
 <body>
 
+{% with messages = get_flashed_messages() %}
+  {% for message in messages %}
+      <div class="flash-msg">{{ message }}</div>
+  {% endfor %}
+{% endwith %}
 <!-- NAV BAR -->
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -26,7 +31,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         {% if ('user_id' in session) and (session['user_id'])%}
-          <li><a href="/session['username']">My Profile</a>
+          <li><a href="/{{ session['username'] }}">My Profile</a>
           <li><a href="/logout">Logout</a></li>
         {% else %}
 <!--           <li><a href="/login">Login</a></li> -->
@@ -39,8 +44,9 @@
 </nav>
 
 
+
   <!-- CHILD TEMPLATE BODY CONTENT  -->
-  {% block body %} ENTER CHILD TEMPLATE BLOCK CONTENT HERE {% endblock %}
+{% block body %} ENTER CHILD TEMPLATE BLOCK CONTENT HERE {% endblock %}
 
 
 <!-- Login Modal -->

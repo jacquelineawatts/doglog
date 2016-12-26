@@ -33,9 +33,17 @@ def show_profile(username):
     """Displays a user's profile. """
 
     current_user = User.get_user_by_user_id(session['user_id'])
-    pets = current_user.get_all_pets()
 
-    return render_template('user.html', current_user=current_user, pets=pets)
+    if current_user:
+        if current_user.username == username:
+            pets = current_user.get_all_pets()
+            return render_template('user.html', current_user=current_user, pets=pets)
+        else:
+            flash("I'm sorry, you're not signed in as that user.")
+            return redirect('/{}'.format(current_user.username))
+    else:
+        flash("Please login to see your user profile.")
+        return redirect('/')
 
 
 @app.route('/<username>/<first_name>-<last_name>')
@@ -71,6 +79,23 @@ def add_new_entry():
 
     return redirect('/{}/{}-{}'.format(user.username, pet.first_name, pet.last_name))
 
+
+@app.route('/add_pet', methods=['POST'])
+def add_new_pet():
+    """Adds new pet to the db and creates PetUser association."""
+
+    first_name = request.form.get('fname')
+    animal = request.form.get('animal')
+    breed = request.form.get('breed')
+    dob = request.form.get('dob')
+
+    current_user = User.query.get(session['user_id'])
+    last_name = current_user.last_name
+
+    pet = Pet.add_new_pet_to_db(first_name, last_name, animal, breed, dob)
+    return redirect('/{}/{}-{}'.format(current_user.username, pet.first_name, pet.last_name))
+
+
 # --------------------------- PROFILE REGISTRATION -----------------------------
 
 
@@ -100,7 +125,7 @@ def process_signup():
         return redirect('/#login')
 
     else:
-        user = User.add_user_to_db(email, password, first_name, last_name, username, profile_img)
+        user = User.add_new_user_to_db(first_name, last_name, username, email, password)
         flash("Thank you for signing up for an account.")
         session['user_id'] = user.user_id
         session['username'] = user.username
@@ -156,6 +181,7 @@ def processes_logout():
     """Processes a user logging out and resets any associated session keys."""
 
     session['user_id'] = None
+    session['username'] = None
     flash("You've successfully logged out!")
     return redirect('/')
 
