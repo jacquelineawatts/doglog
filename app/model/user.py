@@ -39,6 +39,7 @@ class User(db.Model):
         db.session.add(user)
         db.session.commit()
 
+        print 'Added new user to DB.'
         return user
 
     @classmethod
@@ -53,6 +54,20 @@ class User(db.Model):
 
         except MultipleResultsFound:
             return None
+
+    @classmethod
+    def get_user_by_username(cls, username):
+        """Given username, returns the user object. """
+
+        try:
+            return User.query.filter_by(username=username).one()
+
+        except NoResultFound:
+            return None
+
+        except MultipleResultsFound:
+            return None
+
 
     def get_all_pets(self):
         """Given a user, see all associated pets. """

@@ -29,6 +29,7 @@ class Activity(db.Model):
         db.session.add(activity)
         db.session.commit()
 
+        print 'Added new activity to DB.'
         return activity
 
     @classmethod

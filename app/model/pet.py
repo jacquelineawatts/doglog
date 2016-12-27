@@ -111,6 +111,7 @@ class PetUser(db.Model):
         db.session.add(pet_user)
         db.session.commit()
 
+        print 'Added new pet to DB.'
         return pet_user
 
 
