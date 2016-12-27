@@ -12,19 +12,19 @@
     margin-bottom: 20px;
 }
 
-.loginButton, .signupButton, .aboutButton, .entryButton, input[type=submit] {
+.loginButton, .signupButton, .profileButton, .logoutButton, .aboutButton, .entryButton, input[type=submit] {
     background-color: #ffffff;
     padding: 7px 7px 7px 7px;
     margin-bottom: 20px;
     border-radius: 7px;
-    border: #272927 solid 2px;
-    color: #272927;
+    border: #6871ae solid 2px;
+    color: #6871ae;
     font-family: 'Ubuntu Condensed', sans-serif;
 }
 
-.loginButton:hover, .signupButton:hover, .entryButton:hover, .aboutButton:hover, input[type=submit]:hover {
-    background-color: #272927;
-    border: #272927 solid 2px;
+.loginButton:hover, .signupButton:hover, .profileButton:hover, .logoutButton:hover, .entryButton:hover, .aboutButton:hover, input[type=submit]:hover {
+    background-color: #6871ae;
+    border: #6871ae solid 2px;
     color: #ffffff;
     font-family: 'Ubuntu Condensed', sans-serif;
     text-decoration: none;

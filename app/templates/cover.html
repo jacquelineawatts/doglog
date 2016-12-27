@@ -25,8 +25,15 @@
         <center>
         <img src="static/logo_w_name.png" id="cover-image">
         <br>
+        {% if user %}
+        <a class="profileButton" href="/{{ user.username }}">My Profile</a><br>
+        <a class="logoutButton" href="/logout">Logout</a><br>
+
+        {% else %}
         <button class="loginButton" data-toggle="modal" data-target="#loginModal">Login</button><br>
         <button class="signupButton" data-toggle="modal" data-target="#signupModal"> Sign up</button><br>
+        {% endif %}
+
         <a class="aboutButton" href="/about">Learn more</a><br>
         <br>
         </center>
