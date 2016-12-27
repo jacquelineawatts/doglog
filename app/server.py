@@ -7,7 +7,7 @@ from model.user import User
 from model.pet import Pet, PetUser
 from model.activity import Activity
 from model.entry import Entry
-from datetime import datetime
+from datetime import datetime, date
 
 app = Flask(__name__)
 app.secret_key = '\x7f\xebu\xc2\xef\x1a\xdf\x95%\x87{h]\xc2\x8b\x94\xad\xfd7\xdf\tb\x869'
@@ -18,7 +18,14 @@ app.jinja_env.undefined = StrictUndefined
 def show_homepage():
     """Displays homepage."""
 
-    return render_template('cover.html')
+    user = None
+    try:
+        if session['user_id']:
+            user = User.query.get(session['user_id'])
+    except KeyError:
+        "No user is logged in."
+
+    return render_template('cover.html', user=user)
 
 
 @app.route('/about')
@@ -50,15 +57,19 @@ def show_profile(username):
 def show_pet(username, first_name, last_name):
     """Displays a pet's profile. """
 
-    print 'UN: ', username
-    print 'FN: ', first_name
-    print 'LN: ', last_name
+    period = request.args.get('period')
+    print 'PERIOD: ', period
     current_user = User.get_user_by_user_id(session['user_id'])
-    print 'CU:', current_user
     current_pet = Pet.get_pet_by_name_and_user(current_user, first_name, last_name)
     activities = Activity.get_all_activities()
-    print 'CURRENT PET: ', current_pet
-    entries = Entry.get_all_entries(current_pet)
+
+    if period == 'all':
+        entries = Entry.get_all_entries(current_pet)
+    elif period == 'custom':
+        # Find a good date picker library for here.
+        entries = None
+    else:
+        entries = Entry.get_entry_segment(current_pet, period)
 
     return render_template('pet.html', pet=current_pet, entries=entries, user=current_user, activities=activities)
 
@@ -88,11 +99,13 @@ def add_new_pet():
     animal = request.form.get('animal')
     breed = request.form.get('breed')
     dob = request.form.get('dob')
+    role = request.form.get('role')
 
     current_user = User.query.get(session['user_id'])
     last_name = current_user.last_name
 
     pet = Pet.add_new_pet_to_db(first_name, last_name, animal, breed, dob)
+    pet_user = PetUser.add_new_pet_user_connection(current_user.user_id, pet.pet_id, role)
     return redirect('/{}/{}-{}'.format(current_user.username, pet.first_name, pet.last_name))
 
 

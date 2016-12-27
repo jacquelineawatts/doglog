@@ -4,6 +4,7 @@ from flask import flash
 from activity import Activity
 from user import User
 from pet import Pet
+from datetime import date, time, datetime, timedelta
 
 class Entry(db.Model):
     """Class for activity instance."""
@@ -42,6 +43,7 @@ class Entry(db.Model):
         db.session.add(entry)
         db.session.commit()
 
+        print 'Added new entry to DB.'
         return entry
 
     @classmethod
@@ -49,6 +51,26 @@ class Entry(db.Model):
 
         try:
             return Entry.query.filter_by(pet_id=pet.pet_id).all()
+
+        except NoResultFound:
+            return None
+
+    @classmethod
+    def get_entry_segment(cls, pet, period):
+
+        start_time = time.min
+        end_time = time.max
+        today = datetime.today()
+
+        if period is None:
+            start_date = datetime.combine(today, start_time)
+            end_date = datetime.combine(today, end_time)
+        elif period == 'week':
+            end_date = datetime.combine(today, end_time)
+            start_date = end_date - timedelta(days=7)
+
+        try:
+            return Entry.query.filter(Entry.pet_id == pet.pet_id, Entry.logged_at >= start_date, Entry.logged_at <= end_date).all()
 
         except NoResultFound:
             return None
