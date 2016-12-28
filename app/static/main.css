@@ -29,3 +29,8 @@
     font-family: 'Ubuntu Condensed', sans-serif;
     text-decoration: none;
 }
+
+.graphs {
+    max-width: 50%;
+    max-height: 50%;
+}

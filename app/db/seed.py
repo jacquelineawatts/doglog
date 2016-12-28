@@ -9,14 +9,14 @@ def load_seed_users_and_pets():
 
     jacqui = User.add_new_user_to_db(first_name='Jacqui',
                                      last_name='Watts',
-                                     username='jacquelineawatts',
+                                     username='jacqui',
                                      email='jacqui@test.org',
                                      password='test',
                                      profile_img=None)
 
     pam = User.add_new_user_to_db(first_name='Pam',
                                   last_name='Watts',
-                                  username='pamrwatts',
+                                  username='pam',
                                   email='pam@test.org',
                                   password='test',
                                   profile_img=None)

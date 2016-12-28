@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 
 {% block head %}
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.js">
+</script>
+<script src"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js">
+</script>
 {% endblock %}
 
 {% block title %} Pet Profile {% endblock %}
@@ -15,7 +18,9 @@
 {% endif %}
 
 <p><strong>Birthdate:</strong> {{ pet.birthdate }}</p>
-<p>{{ pet.bio }}</p>
+{% if pet.bio %}
+    <p>{{ pet.bio }}</p>
+{% endif %}
 
 <h4>Add New Entry:</h4>
 <form action='/add_entry' method='POST' id="entryForm">
@@ -31,12 +36,12 @@
 
 <h4>Entries: </h4>
 <ul class="nav nav-tabs">
-  <li role="presentation" class="active"><a href="#">Today</a></li>
+  <li role="presentation"><a href="?period=today">Today</a></li>
   <li role="presentation"><a href="?period=week">Past Week</a></li>
   <li role="presentation"><a href="?period=all">All</a></li>
   <li role="presentation"><a href="?period=custom">Custom Range</a></li>
 </ul>
-
+<canvas class="graphs" id="myChart" width="400" height="400"></canvas>
 <div class='entries-list'>
 {% if entries %}
     {% for entry in entries %}
@@ -50,5 +55,50 @@
 <br>
 <h4>Trends: </h4>
 
+<script>
+var ctx = $("#myChart");
 
+var options = { responsive: true,
+                title: {
+                    display: true,
+                    text: 'Historical Frequency by Time of Day',
+                    fontColor: '#000000',
+                    fontSize: 16,
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            max: 100,
+                            stepSize: 5,
+                            fontColor: '#000000',
+                            fontSize: 16,
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: '#000000',
+                        }
+                    }],
+                }, 
+                legend: {
+                    display: true,
+                    position: 'right',
+                    labels: {
+                        boxWidth: 20,
+                        fontColor: '#000000',
+                    }
+                }
+            };
+
+
+$.get('/chart_data.json', { pet_fname: "{{ pet.first_name }}", pet_lname: "{{ pet. last_name }}" }, function(data) {
+    console.log(data);
+    var hx_freq_chart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options,
+    });
+});
+</script>
 {% endblock %}

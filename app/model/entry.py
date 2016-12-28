@@ -62,7 +62,7 @@ class Entry(db.Model):
         end_time = time.max
         today = datetime.today()
 
-        if period is None:
+        if period == 'today' or period is None:
             start_date = datetime.combine(today, start_time)
             end_date = datetime.combine(today, end_time)
         elif period == 'week':
@@ -74,6 +74,46 @@ class Entry(db.Model):
 
         except NoResultFound:
             return None
+
+    @classmethod
+    def find_entries(cls, current_pet, period):
+        """Find entries by time period selected."""
+
+        if period == 'all':
+            entries = Entry.get_all_entries(current_pet)
+        elif period == 'custom':
+        # Find a good date picker library for here.
+            entries = None
+        else:
+            entries = Entry.get_entry_segment(current_pet, period)
+
+        return entries
+
+    @classmethod
+    def get_chart_data(cls, pet):
+        """Get data for ChartJS chart on pets page. """
+
+        entries = Entry.get_all_entries(pet)
+        no_1, no_2, food, walk, meds, litter_change = [], [], [], [], [], []
+
+        for entry in entries:
+            for activity in [no_1, no_2, food, walk, meds, litter_change]:
+                if entry.activity_id.activity == activity:
+                    entry_time = entry.occurred_at.hour
+                    if entry.occurred_at.minute >= 30:
+                        entry_time += 0.5
+                    activity.append(entry_time)
+        print 'NO 1', no_1
+        print 'NO 2', no_2
+
+        chart_data = {"datasets": [{"data": [],
+                                    # "backgroundColor": ['#ff9900', '#ff9900', '#ff9900'],
+                                    # "hoverBackgroundColor": ['#ffd699', '#ffd699', '#ffd699'],
+                                    # "label": "Notes Only",
+                                    }],
+                      }
+
+        return chart_data
 
 
 if __name__ == '__main__':

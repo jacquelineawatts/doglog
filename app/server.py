@@ -62,16 +62,24 @@ def show_pet(username, first_name, last_name):
     current_user = User.get_user_by_user_id(session['user_id'])
     current_pet = Pet.get_pet_by_name_and_user(current_user, first_name, last_name)
     activities = Activity.get_all_activities()
-
-    if period == 'all':
-        entries = Entry.get_all_entries(current_pet)
-    elif period == 'custom':
-        # Find a good date picker library for here.
-        entries = None
-    else:
-        entries = Entry.get_entry_segment(current_pet, period)
+    entries = Entry.find_entries(current_pet, period)
 
     return render_template('pet.html', pet=current_pet, entries=entries, user=current_user, activities=activities)
+
+
+# --------------------------- RETREIVING CHART DATA -----------------------------
+
+@app.route('/chart_data.json')
+def get_chart_data(pet_fname, pet_lname):
+
+    current_user = User.get_user_by_user_id(session['user_id'])
+    current_pet = Pet.get_pet_by_name_and_user(current_user, pet_fname, pet_lname)
+
+    chart_data = Entry.get_chart_data(current_pet)
+
+    return jsonify(chart_data)
+
+# --------------------------- ADDING INSTANCES TO DB -----------------------------
 
 
 @app.route('/add_entry', methods=['POST'])
