@@ -89,28 +89,59 @@ class Entry(db.Model):
 
         return entries
 
+    @staticmethod
+    def build_empty_dict():
+
+        # Establish dict of chart data, keys are time slots per 1/2 hr and all activites.
+        histogram_dict = {}
+        hour_slots = [x/10.0 for x in range(0, 240, 5)]
+
+        activities = Activity.get_all_activities()
+        possible_activities = [activity.activity_id for activity in activities]
+
+        for slot in hour_slots:
+            histogram_dict[slot] = {}
+            for activity in possible_activities:
+                histogram_dict[slot][activity] = 0
+
+        return histogram_dict
+
     @classmethod
-    def get_chart_data(cls, pet):
+    def compile_chart_data(cls, pet):
         """Get data for ChartJS chart on pets page. """
 
+        histogram_dict = Entry.build_empty_dict()
         entries = Entry.get_all_entries(pet)
-        no_1, no_2, food, walk, meds, litter_change = [], [], [], [], [], []
 
         for entry in entries:
-            for activity in [no_1, no_2, food, walk, meds, litter_change]:
-                if entry.activity_id.activity == activity:
-                    entry_time = entry.occurred_at.hour
-                    if entry.occurred_at.minute >= 30:
-                        entry_time += 0.5
-                    activity.append(entry_time)
-        print 'NO 1', no_1
-        print 'NO 2', no_2
+            entry_time = entry.occurred_at.hour
+            if entry.occurred_at.minute >= 30:
+                entry_time += 0.5
+            histogram_dict[entry_time][entry.activity_id] += 1
 
-        chart_data = {"datasets": [{"data": [],
-                                    # "backgroundColor": ['#ff9900', '#ff9900', '#ff9900'],
-                                    # "hoverBackgroundColor": ['#ffd699', '#ffd699', '#ffd699'],
-                                    # "label": "Notes Only",
-                                    }],
+        no_1 = [value[1] for key, value in histogram_dict.iteritems()]
+        print 'NO 1 LIST: ', no_1
+        no_2 = [value[2] for key, value in histogram_dict.iteritems()]
+        print 'NO 2 LIST: ', no_2
+        no_3 = [value[3] for key, value in histogram_dict.iteritems()]
+        print 'NO 3 LIST: ', no_3
+
+        chart_data = {"values": [x/10.0 for x in range(0, 240, 5)],
+                      "datasets": [{"data": [value[1] for key, value in histogram_dict.iteritems()],
+                                   "backgroundColor": ['#ff9900', '#ff9900', '#ff9900'],
+                                   "hoverBackgroundColor": ['#ffd699', '#ffd699', '#ffd699'],
+                                   "label": "No 1",
+                                    },
+                                  {"data": [value[2] for key, value in histogram_dict.iteritems()],
+                                   "backgroundColor": ['#0066ff', '#0066ff', '#0066ff'],
+                                   "hoverBackgroundColor": ['#99c2ff', '#99c2ff', '#99c2ff'],
+                                   "label": "No 2",
+                                    },
+                                  {"data": [value[3] for key, value in histogram_dict.iteritems()],
+                                   "backgroundColor": ['#339966', '#339966', '#339966'],
+                                   "hoverBackgroundColor": ['#9fdfbf', '#9fdfbf', '#9fdfbf'],
+                                   "label": "Food",
+                                    }, ]
                       }
 
         return chart_data

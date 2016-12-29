@@ -70,12 +70,16 @@ def show_pet(username, first_name, last_name):
 # --------------------------- RETREIVING CHART DATA -----------------------------
 
 @app.route('/chart_data.json')
-def get_chart_data(pet_fname, pet_lname):
+def get_chart_data():
 
+    first_name = request.args.get('pet_fname')
+    last_name = request.args.get('pet_lname')
+    print 'NAME:', first_name, last_name
     current_user = User.get_user_by_user_id(session['user_id'])
-    current_pet = Pet.get_pet_by_name_and_user(current_user, pet_fname, pet_lname)
+    current_pet = Pet.get_pet_by_name_and_user(current_user, first_name, last_name)
+    print 'CURRENT PET', current_pet
 
-    chart_data = Entry.get_chart_data(current_pet)
+    chart_data = Entry.compile_chart_data(current_pet)
 
     return jsonify(chart_data)
 

@@ -41,7 +41,7 @@
   <li role="presentation"><a href="?period=all">All</a></li>
   <li role="presentation"><a href="?period=custom">Custom Range</a></li>
 </ul>
-<canvas class="graphs" id="myChart" width="400" height="400"></canvas>
+<canvas id="myChart" width="400" height="400"></canvas>
 <div class='entries-list'>
 {% if entries %}
     {% for entry in entries %}
@@ -63,16 +63,16 @@ var options = { responsive: true,
                     display: true,
                     text: 'Historical Frequency by Time of Day',
                     fontColor: '#000000',
-                    fontSize: 16,
+                    fontSize: 10,
                 },
                 scales: {
                     yAxes: [{
                         ticks: {
                             min: 0,
                             max: 100,
-                            stepSize: 5,
+                            stepSize: 10,
                             fontColor: '#000000',
-                            fontSize: 16,
+                            fontSize: 10,
                         }
                     }],
                     xAxes: [{
