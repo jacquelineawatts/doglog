@@ -84,6 +84,8 @@ class Entry(db.Model):
         elif period == 'custom':
         # Find a good date picker library for here.
             entries = None
+        elif period == 'trends':
+            entries = None
         else:
             entries = Entry.get_entry_segment(current_pet, period)
 
@@ -119,12 +121,6 @@ class Entry(db.Model):
                 entry_time += 0.5
             histogram_dict[entry_time][entry.activity_id] += 1
 
-        no_1 = [(key, value[1]) for key, value in sorted(histogram_dict.iteritems())]
-        print 'NO 1 LIST: ', no_1
-        no_2 = [(key, value[2]) for key, value in histogram_dict.iteritems()]
-        print 'NO 2 LIST: ', no_2
-        no_3 = [(key, value[3]) for key, value in histogram_dict.iteritems()]
-        print 'NO 3 LIST: ', no_3
 
         chart_data = {"labels": [x/10.0 for x in range(0, 240, 5)],
                       "datasets": [

@@ -64,7 +64,7 @@ def show_pet(username, first_name, last_name):
     activities = Activity.get_all_activities()
     entries = Entry.find_entries(current_pet, period)
 
-    return render_template('pet.html', pet=current_pet, entries=entries, user=current_user, activities=activities)
+    return render_template('pet.html', pet=current_pet, entries=entries, user=current_user, activities=activities, period=period)
 
 
 # --------------------------- RETREIVING CHART DATA -----------------------------

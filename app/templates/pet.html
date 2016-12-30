@@ -40,20 +40,23 @@
   <li role="presentation"><a href="?period=week">Past Week</a></li>
   <li role="presentation"><a href="?period=all">All</a></li>
   <li role="presentation"><a href="?period=custom">Custom Range</a></li>
+  <li role="presentation"><a href="?period=trends">Trends</a></li>
 </ul>
-<canvas id="myChart" class="graphs" width="400" height="400"></canvas>
-<div class='entries-list'>
-{% if entries %}
-    {% for entry in entries %}
-        {{ entry.occurred_at }} --- {{ entry.user.username }} --- {{ entry.activity.activity }}
-        <br>
-    {% endfor %}
+{% if period == 'trends' %}
+    <canvas id="myChart" class="graphs" width="400" height="400"></canvas>
 {% else %}
-    <p>There are no entries for {{ pet.first_name }}.</p>
+    <div class='entries-list'>
+    {% if entries %}
+        {% for entry in entries %}
+            {{ entry.occurred_at }} --- {{ entry.user.username }} --- {{ entry.activity.activity }}
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>There are no entries for {{ pet.first_name }}.</p>
+    {% endif %}
 {% endif %}
 </div>
 <br>
-<h4>Trends: </h4>
 
 <script>
 var ctx = $("#myChart");
