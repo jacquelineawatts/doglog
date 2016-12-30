@@ -119,27 +119,28 @@ class Entry(db.Model):
                 entry_time += 0.5
             histogram_dict[entry_time][entry.activity_id] += 1
 
-        no_1 = [value[1] for key, value in histogram_dict.iteritems()]
+        no_1 = [(key, value[1]) for key, value in sorted(histogram_dict.iteritems())]
         print 'NO 1 LIST: ', no_1
-        no_2 = [value[2] for key, value in histogram_dict.iteritems()]
+        no_2 = [(key, value[2]) for key, value in histogram_dict.iteritems()]
         print 'NO 2 LIST: ', no_2
-        no_3 = [value[3] for key, value in histogram_dict.iteritems()]
+        no_3 = [(key, value[3]) for key, value in histogram_dict.iteritems()]
         print 'NO 3 LIST: ', no_3
 
-        chart_data = {"values": [x/10.0 for x in range(0, 240, 5)],
-                      "datasets": [{"data": [value[1] for key, value in histogram_dict.iteritems()],
-                                   "backgroundColor": ['#ff9900', '#ff9900', '#ff9900'],
-                                   "hoverBackgroundColor": ['#ffd699', '#ffd699', '#ffd699'],
+        chart_data = {"labels": [x/10.0 for x in range(0, 240, 5)],
+                      "datasets": [
+                                  {"data": [value[1] for key, value in sorted(histogram_dict.iteritems())],
+                                   "backgroundColor": '#ff9900',
+                                   "hoverBackgroundColor": '#ffd699',
                                    "label": "No 1",
                                     },
-                                  {"data": [value[2] for key, value in histogram_dict.iteritems()],
-                                   "backgroundColor": ['#0066ff', '#0066ff', '#0066ff'],
-                                   "hoverBackgroundColor": ['#99c2ff', '#99c2ff', '#99c2ff'],
+                                  {"data": [value[2] for key, value in sorted(histogram_dict.iteritems())],
+                                   "backgroundColor": '#0066ff',
+                                   "hoverBackgroundColor": '#99c2ff',
                                    "label": "No 2",
                                     },
-                                  {"data": [value[3] for key, value in histogram_dict.iteritems()],
-                                   "backgroundColor": ['#339966', '#339966', '#339966'],
-                                   "hoverBackgroundColor": ['#9fdfbf', '#9fdfbf', '#9fdfbf'],
+                                  {"data": [value[3] for key, value in sorted(histogram_dict.iteritems())],
+                                   "backgroundColor": '#339966',
+                                   "hoverBackgroundColor": '#9fdfbf',
                                    "label": "Food",
                                     }, ]
                       }

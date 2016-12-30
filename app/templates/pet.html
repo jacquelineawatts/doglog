@@ -41,7 +41,7 @@
   <li role="presentation"><a href="?period=all">All</a></li>
   <li role="presentation"><a href="?period=custom">Custom Range</a></li>
 </ul>
-<canvas id="myChart" width="400" height="400"></canvas>
+<canvas id="myChart" class="graphs" width="400" height="400"></canvas>
 <div class='entries-list'>
 {% if entries %}
     {% for entry in entries %}
@@ -69,18 +69,21 @@ var options = { responsive: true,
                     yAxes: [{
                         ticks: {
                             min: 0,
-                            max: 100,
+                            max: 200,
                             stepSize: 10,
                             fontColor: '#000000',
                             fontSize: 10,
                         }
                     }],
                     xAxes: [{
+                        label: 'Hour',
+                        barThickness: 3,
+                        stacked: false,
                         ticks: {
                             fontColor: '#000000',
-                        }
+                        },
                     }],
-                }, 
+                },
                 legend: {
                     display: true,
                     position: 'right',
