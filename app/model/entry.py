@@ -1,5 +1,6 @@
 from model import connect_to_db, db
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
+from sqlalchemy import func
 from flask import flash
 from activity import Activity
 from user import User
@@ -54,6 +55,18 @@ class Entry(db.Model):
 
         except NoResultFound:
             return None
+
+    @classmethod
+    def compile_stats(cls, pet):
+
+        stats = {}
+        # NEEDED: Figure out SQL alchemy querying for averages by specified time period (daily)
+        no_1 = Entry.query.filter_by(activity_id=1).all()
+        no_2 = Entry.query.filter_by(activity_id=2).all()
+        fed = Entry.query.filter_by(activity_id=3).all()
+        walked = Entry.query.filter_by(activity_id=4).all()
+
+        return stats
 
     @classmethod
     def get_entry_segment(cls, pet, period):

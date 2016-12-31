@@ -10,53 +10,75 @@
 {% block title %} Pet Profile {% endblock %}
 
 {% block body %}
-<img src='http://localhost:5000/{{ pet.profile_img }}'>
-<h1>{{ pet.first_name }} {{ pet.last_name }}</h1>
-<p><strong>Animal:</strong> {{ pet.animal }}</p>
-{% if pet.breed %}
-    <p><strong>Breed:</strong> {{ pet.breed }}</p>
-{% endif %}
+<div class="container">
+    <div class="row">
+        <img src='http://localhost:5000/{{ pet.profile_img }}'>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>{{ pet.first_name }} {{ pet.last_name }}</h1>
+            <p><strong>Animal:</strong> {{ pet.animal }}</p>
+            {% if pet.breed %}
+                <p><strong>Breed:</strong> {{ pet.breed }}</p>
+            {% endif %}
 
-<p><strong>Birthdate:</strong> {{ pet.birthdate }}</p>
-{% if pet.bio %}
-    <p>{{ pet.bio }}</p>
-{% endif %}
+            <p><strong>Birthdate:</strong> {{ pet.birthdate }}</p>
+            {% if pet.bio %}
+                <p>{{ pet.bio }}</p>
+            {% endif %}
 
-<h4>Add New Entry:</h4>
-<form action='/add_entry' method='POST' id="entryForm">
-    <label for='activity'></label>
-    <select name='activity'>
-    {% for activity in activities %}
-        <option value='{{ activity.activity_id }}'>{{ activity.activity }}</option>  
-    {% endfor %}
-    </select>
-    <input type='hidden' name='pet_id' value='{{ pet.pet_id }}'>
-    <input type='submit' name='submit' value='Enter'>
-</form>
-
-<h4>Entries: </h4>
-<ul class="nav nav-tabs">
-  <li role="presentation"><a href="?period=today">Today</a></li>
-  <li role="presentation"><a href="?period=week">Past Week</a></li>
-  <li role="presentation"><a href="?period=all">All</a></li>
-  <li role="presentation"><a href="?period=custom">Custom Range</a></li>
-  <li role="presentation"><a href="?period=trends">Trends</a></li>
-</ul>
-{% if period == 'trends' %}
-    <canvas id="myChart" class="graphs" width="400" height="400"></canvas>
-{% else %}
-    <div class='entries-list'>
-    {% if entries %}
-        {% for entry in entries %}
-            {{ entry.occurred_at }} --- {{ entry.user.username }} --- {{ entry.activity.activity }}
-            <br>
-        {% endfor %}
-    {% else %}
-        <p>There are no entries for {{ pet.first_name }}.</p>
-    {% endif %}
-{% endif %}
+            <h4>Add New Entry:</h4>
+            <form action='/add_entry' method='POST' id="entryForm">
+                <label for='activity'></label>
+                <select name='activity'>
+                {% for activity in activities %}
+                    <option value='{{ activity.activity_id }}'>{{ activity.activity }}</option>  
+                {% endfor %}
+                </select>
+                <input type='hidden' name='pet_id' value='{{ pet.pet_id }}'>
+                <input type='submit' name='submit' value='Enter'>
+            </form>
+        </div>
+        <div class="col-sm-3 stats">
+            <h6>STATS</h6>
+            <p><strong>Activity averages (per day):</strong></p>
+            <ul>
+                <li>No 1: 6</li>
+                <li>No 2: 3</li>
+                <li>Fed: 2</li>
+                <li>Walked: 1</li>
+            </ul>
+        </div>
+    </div>
 </div>
-<br>
+<div class="container">
+    <div class="row">
+        <h4>Entries: </h4>
+        <ul class="nav nav-tabs">
+          <li role="presentation"><a href="?period=today">Today</a></li>
+          <li role="presentation"><a href="?period=week">Past Week</a></li>
+          <li role="presentation"><a href="?period=all">All</a></li>
+          <li role="presentation"><a href="?period=custom">Custom Range</a></li>
+          <li role="presentation"><a href="?period=trends">Trends</a></li>
+        </ul>
+        <br>
+        {% if period == 'trends' %}
+            <canvas id="myChart" class="graphs" width="400" height="400"></canvas>
+        {% else %}
+            <div class='entries-list'>
+            {% if entries %}
+                {% for entry in entries %}
+                    {{ entry.occurred_at }} --- {{ entry.user.username }} --- {{ entry.activity.activity }}
+                    <br>
+                {% endfor %}
+            {% else %}
+                <p>There are no entries for {{ pet.first_name }}.</p>
+            {% endif %}
+        {% endif %}
+        </div>
+        <br>
+    </div>
+</div>
 
 <script>
 var ctx = $("#myChart");
