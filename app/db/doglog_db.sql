@@ -42,7 +42,8 @@ CREATE TABLE activities (
     activity_id integer NOT NULL,
     activity character varying(30),
     min_daily integer,
-    max_daily integer
+    max_daily integer,
+    time_period character varying(30)
 );
 
 
@@ -259,13 +260,13 @@ ALTER TABLE ONLY users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_s
 -- Data for Name: activities; Type: TABLE DATA; Schema: public; Owner: jacqui
 --
 
-COPY activities (activity_id, activity, min_daily, max_daily) FROM stdin;
-1	#1	\N	\N
-2	#2	\N	\N
-3	food	1	2
-4	walk	\N	\N
-5	meds	1	1
-6	litter change	\N	\N
+COPY activities (activity_id, activity, min_daily, max_daily, time_period) FROM stdin;
+1	#1	\N	\N	\N
+2	#2	\N	\N	\N
+3	food	1	2	\N
+4	walk	\N	\N	\N
+5	meds	1	1	\N
+6	litter change	\N	\N	\N
 \.
 
 
@@ -3225,6 +3226,12 @@ COPY entries (entry_id, user_id, pet_id, activity_id, occurred_at, logged_at, no
 2944	1	1	3	2015-08-11 17:35:00	2015-08-11 17:35:00	\N
 2945	1	1	2	2015-08-11 11:00:00	2015-08-11 11:00:00	\N
 2946	1	1	3	2015-08-11 08:45:00	2015-08-11 08:45:00	\N
+2947	1	1	3	2016-12-27 17:37:02.287108	2016-12-27 17:37:02.287115	\N
+2948	1	1	1	2016-12-27 17:45:09.994204	2016-12-27 17:45:09.994212	\N
+2949	1	1	1	2016-12-28 00:32:36.10268	2016-12-28 00:32:36.102698	\N
+2950	1	1	1	2016-12-28 08:46:52.458491	2016-12-28 08:46:52.458496	\N
+2951	1	1	3	2016-12-28 08:46:56.893635	2016-12-28 08:46:56.893641	\N
+2952	1	1	2	2016-12-28 10:48:32.2363	2016-12-28 10:48:32.236307	\N
 \.
 
 
@@ -3232,7 +3239,7 @@ COPY entries (entry_id, user_id, pet_id, activity_id, occurred_at, logged_at, no
 -- Name: entries_entry_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jacqui
 --
 
-SELECT pg_catalog.setval('entries_entry_id_seq', 2946, true);
+SELECT pg_catalog.setval('entries_entry_id_seq', 2952, true);
 
 
 --
@@ -3261,6 +3268,10 @@ COPY pets_users (petuser_id, user_id, pet_id, role) FROM stdin;
 2	2	1	primary
 3	1	2	secondary
 4	2	2	primary
+5	4	1	primary
+6	4	2	primary
+7	5	1	secondary
+8	5	2	secondary
 \.
 
 
@@ -3268,7 +3279,7 @@ COPY pets_users (petuser_id, user_id, pet_id, role) FROM stdin;
 -- Name: pets_users_petuser_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jacqui
 --
 
-SELECT pg_catalog.setval('pets_users_petuser_id_seq', 4, true);
+SELECT pg_catalog.setval('pets_users_petuser_id_seq', 8, true);
 
 
 --

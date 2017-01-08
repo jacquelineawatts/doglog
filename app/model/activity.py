@@ -12,6 +12,7 @@ class Activity(db.Model):
     activity = db.Column(db.String(30))
     min_daily = db.Column(db.Integer, nullable=True)
     max_daily = db.Column(db.Integer, nullable=True)
+    time_period = db.Column(db.String(30), nullable=True) # if left null defaults to daily
 
     def __repr__(self):
         return "<Activity: {} {}>".format(self.activity_id,
