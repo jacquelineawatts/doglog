@@ -267,6 +267,8 @@ COPY activities (activity_id, activity, min_daily, max_daily, time_period) FROM 
 4	walk	\N	\N	\N
 5	meds	1	1	\N
 6	litter change	\N	\N	\N
+7	Vet check-up	2	\N	year
+8	Brushed teeth	2	\N	week
 \.
 
 
@@ -274,7 +276,7 @@ COPY activities (activity_id, activity, min_daily, max_daily, time_period) FROM 
 -- Name: activities_activity_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jacqui
 --
 
-SELECT pg_catalog.setval('activities_activity_id_seq', 6, true);
+SELECT pg_catalog.setval('activities_activity_id_seq', 8, true);
 
 
 --
