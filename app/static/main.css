@@ -39,3 +39,7 @@
     border: black 2px solid;
     padding: 5px 0px 5px 15px;
 }
+
+th, td {
+    padding-right: 10px;
+}

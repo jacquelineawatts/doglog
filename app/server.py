@@ -122,6 +122,26 @@ def add_new_pet():
     return redirect('/{}/{}-{}'.format(current_user.username, pet.first_name, pet.last_name))
 
 
+# MAY WANT THIS TO BE SPLIT OUT TO A SEPARATE DB TABLE WITH ADDITIONAL FIELD FOR
+# FORIEGN KEY TO APPLICABLE PET. DEPENDS ON IT WE WANT CUSTOM BUILT ACTIVITIES TO
+# BE ACCESSIBLE MORE GLOBALLY?
+@app.route('/add_activity', methods=['POST'])
+def add_new_activity():
+    """Adds new custom activity."""
+
+    activity = request.form.get('activity')
+    minimum = request.form.get('minimum')
+    maximum = request.form.get('maximum')
+    time_period = request.form.get('time_period')
+
+    current_user = User.query.get(session['user_id'])
+    pet_id = request.form.get('pet_id')
+    pet = Pet.query.get(pet_id)
+
+    activity = Activity.add_new_activity_to_db(activity, minimum, maximum, time_period)
+    return redirect('/{}/{}-{}'.format(current_user.username, pet.first_name, pet.last_name))
+
+
 # --------------------------- PROFILE REGISTRATION -----------------------------
 
 

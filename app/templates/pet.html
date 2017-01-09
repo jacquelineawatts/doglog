@@ -41,16 +41,59 @@
         </div>
         <div class="col-sm-3 stats">
             <h6>STATS</h6>
-            <p><strong>Activity averages (per day):</strong></p>
-            <ul>
-                <li>No 1: 6</li>
-                <li>No 2: 3</li>
-                <li>Fed: 2</li>
-                <li>Walked: 1</li>
-            </ul>
+            <table>
+                <tr>
+                    <th>Activity</th>
+                    <th>Daily Avg</th>
+                </tr>
+                {% for activity in activities %}
+                <tr>
+                    <td>{{ activity.activity }}</td>
+                    <td> N/A </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+            <a href="#" data-toggle="modal" data-target="#activityModal">Track a new activity</a>
         </div>
     </div>
 </div>
+
+<!-- Activity Modal -->
+<div class="modal fade" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="activityModalLabel">Add Activity</h4>
+      </div>
+      <div class="modal-body">
+        <form action='/add_activity' method='POST' id="loginForm">
+            <label for='activity'>Activity: </label><input type='text' name='activity'><br>
+
+            <p><em>Optional: Select a min and/or max frequency for this activity, and the appropriate time period (i.e. activity= 'brush teeth' max='2' time period = 'weekly') </em></p>
+
+            <label for='minimum'>Min</label><input type='number' name='minimum'><br>            
+            <label for='maximum'>Max</label><input type='number' name='maximum'><br>
+
+            <label for='time_period'>Time Period: </label>
+            <select name='time_period'>
+                <option value='day'>Daily</option>
+                <option value='week'>Weekly</option>
+                <option value='month'>Monthly</option>
+                <option value='year'>Annually</option>
+            </select>
+            <input type='hidden' name='pet_id' value='{{ pet.pet_id }}'>
+
+            <input type='submit' name='submit' value='Submit'>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <div class="container">
     <div class="row">
         <h4>Entries: </h4>

@@ -12,19 +12,32 @@ class Activity(db.Model):
     activity = db.Column(db.String(30))
     min_daily = db.Column(db.Integer, nullable=True)
     max_daily = db.Column(db.Integer, nullable=True)
-    time_period = db.Column(db.String(30), nullable=True) # if left null defaults to daily
+    time_period = db.Column(db.String(30), nullable=True)  # if null, defaults to daily
 
     def __repr__(self):
         return "<Activity: {} {}>".format(self.activity_id,
-                                          self.name,
+                                          self.activity,
                                           )
 
     @classmethod
-    def add_new_activity_to_db(cls, activity, min_daily, max_daily):
+    def add_new_activity_to_db(cls, activity, minimum, maximum, time_period):
 
+        try:
+            minimum = int(minimum)
+        except ValueError:
+            minimum = None
+
+        try:
+            maximum = int(maximum)
+        except ValueError:
+            maximum = None
+
+         # BY LEGACY THESE ARE CALLED MIN AND MAX DAILY, BUT NOW THESE FIELDS CAN
+        # HOLD MIN/MAX OF ANY SELECTED TIME PERIOD.
         activity = Activity(activity=activity,
-                            min_daily=min_daily,
-                            max_daily=max_daily,
+                            min_daily=minimum,
+                            max_daily=maximum,
+                            time_period=time_period
                             )
 
         db.session.add(activity)
