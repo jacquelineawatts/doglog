@@ -267,8 +267,8 @@ COPY activities (activity_id, activity, min_daily, max_daily, time_period) FROM 
 4	walk	\N	\N	\N
 5	meds	1	1	\N
 6	litter change	\N	\N	\N
-7	Vet check-up	2	\N	year
-8	Brushed teeth	2	\N	week
+8	dental care	2	\N	week
+7	vet visit	2	\N	year
 \.
 
 
