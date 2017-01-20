@@ -182,6 +182,7 @@ def process_signup():
 # ------------------------------- LOGGING IN/OUT -------------------------------
 
 
+# ADDING BACK LOGIN TEMPLATE FOR WHEN LOGIN IS UNSUCCESSFUL
 @app.route('/login', methods=['GET'])
 def shows_login():
     """Displays login page for an existing user."""
