@@ -1,1 +1,1 @@
-web: python app/server.py
+web: gunicorn the-doglog.wsgi

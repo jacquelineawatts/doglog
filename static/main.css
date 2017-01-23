@@ -1,0 +1,45 @@
+.navbar {
+    background-color: white;
+}
+
+#logo {
+    max-width: 30px
+}
+
+#cover-image {
+    max-height: 250px;
+    margin-top: 100px;
+    margin-bottom: 20px;
+}
+
+.loginButton, .signupButton, .profileButton, .logoutButton, .aboutButton, .entryButton, input[type=submit] {
+    background-color: #ffffff;
+    padding: 7px 7px 7px 7px;
+    margin-bottom: 20px;
+    border-radius: 7px;
+    border: #6871ae solid 2px;
+    color: #6871ae;
+    font-family: 'Ubuntu Condensed', sans-serif;
+}
+
+.loginButton:hover, .signupButton:hover, .profileButton:hover, .logoutButton:hover, .entryButton:hover, .aboutButton:hover, input[type=submit]:hover {
+    background-color: #6871ae;
+    border: #6871ae solid 2px;
+    color: #ffffff;
+    font-family: 'Ubuntu Condensed', sans-serif;
+    text-decoration: none;
+}
+
+.graphs {
+    max-width: 75%;
+    max-height: 75%;
+}
+
+.stats {
+    border: black 2px solid;
+    padding: 5px 0px 5px 15px;
+}
+
+th, td {
+    padding-right: 10px;
+}
