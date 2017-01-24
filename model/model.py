@@ -21,10 +21,10 @@ def connect_to_db(app, db_uri="postgresql:///doglog"):
 
     # ----- CONNECTING TO LOCAL DB: ----------
 
-    # app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-    # app.config['SQLALCHEMY_ECHO'] = True
-    # db.app = app
-    # db.init_app(app)
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    app.config['SQLALCHEMY_ECHO'] = True
+    db.app = app
+    db.init_app(app)
 
 
 if __name__ == '__main__':

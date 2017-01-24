@@ -8,9 +8,10 @@ from model.pet import Pet, PetUser
 from model.activity import Activity
 from model.entry import Entry
 from datetime import datetime
+import os
 
 app = Flask(__name__)
-app.secret_key = '\x7f\xebu\xc2\xef\x1a\xdf\x95%\x87{h]\xc2\x8b\x94\xad\xfd7\xdf\tb\x869'
+app.secret_key = os.environ['SECRET_KEY']
 app.jinja_env.undefined = StrictUndefined
 
 
