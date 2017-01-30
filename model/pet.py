@@ -80,6 +80,30 @@ class Pet(db.Model):
                 continue
         return current_pet
 
+    def compile_stats(self):
+
+        sql_query = "SELECT AVG(daily_count) \
+                    FROM (\
+                        SELECT activity_id, \
+                                COUNT(*) AS daily_count, \
+                                EXTRACT(DAY FROM occurred_at) AS day, \
+                                EXTRACT(MONTH FROM occurred_at) AS month \
+                        FROM entries \
+                        WHERE (pet_id = :pet_id) and \
+                              (occurred_at - now() < interval '1 year') \
+                              (activity_id = :activity_id) \
+                        GROUP BY activity_id, month, day \
+                        ORDER BY activity_id, month, day \
+                    ) AS activity_query"
+
+        stats = {}
+        for activity_id in range(5):
+            cursor = db.session.execute(sql_query, {'pet_id': self.id, 'activity_id': activity_id})
+            avg = cursor.fetchone()
+            stats[activity_id] = avg
+
+        return stats
+
 
 class PetUser(db.Model):
     """Class for association table between users and pets."""

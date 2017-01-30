@@ -64,7 +64,8 @@ def show_pet(username, first_name, last_name):
     current_pet = Pet.get_pet_by_name_and_user(current_user, first_name, last_name)
     activities = Activity.get_all_activities()
     entries = Entry.find_entries(current_pet, period)
-    stats = Entry.compile_stats(current_pet)
+    stats = current_pet.compile_stats
+    print 'STATS:', stats
 
     return render_template('pet.html', pet=current_pet, entries=entries, user=current_user, activities=activities, period=period, stats=stats)
 

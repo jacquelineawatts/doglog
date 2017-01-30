@@ -57,18 +57,6 @@ class Entry(db.Model):
             return None
 
     @classmethod
-    def compile_stats(cls, pet):
-
-        stats = {}
-        # NEEDED: Figure out SQL alchemy querying for averages by specified time period (daily)
-        no_1 = Entry.query.filter_by(activity_id=1).all()
-        no_2 = Entry.query.filter_by(activity_id=2).all()
-        fed = Entry.query.filter_by(activity_id=3).all()
-        walked = Entry.query.filter_by(activity_id=4).all()
-
-        return stats
-
-    @classmethod
     def get_entry_segment(cls, pet, period):
 
         start_time = time.min
