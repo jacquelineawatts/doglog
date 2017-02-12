@@ -82,7 +82,7 @@ class Pet(db.Model):
 
     def compile_stats(self):
 
-        sql_query = "SELECT AVG(daily_count) \
+        sql_query = "SELECT CAST(AVG(daily_count) AS real) \
                     FROM (\
                         SELECT activity_id, \
                                 COUNT(*) AS daily_count, \
@@ -90,17 +90,21 @@ class Pet(db.Model):
                                 EXTRACT(MONTH FROM occurred_at) AS month \
                         FROM entries \
                         WHERE (pet_id = :pet_id) and \
-                              (occurred_at - now() < interval '1 year') \
+                              (occurred_at - now() < interval '1 year') and \
                               (activity_id = :activity_id) \
                         GROUP BY activity_id, month, day \
                         ORDER BY activity_id, month, day \
                     ) AS activity_query"
 
         stats = {}
-        for activity_id in range(5):
-            cursor = db.session.execute(sql_query, {'pet_id': self.id, 'activity_id': activity_id})
+        for activity_id in range(1, 5):
+            cursor = db.session.execute(sql_query, {'pet_id': self.pet_id, 'activity_id': activity_id})
             avg = cursor.fetchone()
             stats[activity_id] = avg
+
+        print '*' * 20
+        print 'STATS: ', stats
+        print '*' * 20
 
         return stats
 

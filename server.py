@@ -64,8 +64,7 @@ def show_pet(username, first_name, last_name):
     current_pet = Pet.get_pet_by_name_and_user(current_user, first_name, last_name)
     activities = Activity.get_all_activities()
     entries = Entry.find_entries(current_pet, period)
-    stats = current_pet.compile_stats
-    print 'STATS:', stats
+    stats = current_pet.compile_stats()
 
     return render_template('pet.html', pet=current_pet, entries=entries, user=current_user, activities=activities, period=period, stats=stats)
 
@@ -242,4 +241,4 @@ if __name__ == "__main__":
     DebugToolbarExtension(app)
     app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
-    # app.run(host='127.0.0.1')
+    app.run(host='127.0.0.1')

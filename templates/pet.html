@@ -46,10 +46,10 @@
                     <th>Activity</th>
                     <th>Daily Avg</th>
                 </tr>
-                {% for activity in activities %}
+                {% for activity in activities[:4] %}
                 <tr>
                     <td>{{ activity.activity }}</td>
-                    <td> N/A </td>
+                    <td>{{ stats[activity.activity_id][0] }}</td>
                 </tr>
                 {% endfor %}
             </table>
