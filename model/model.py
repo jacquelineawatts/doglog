@@ -6,7 +6,7 @@ import urlparse
 db = SQLAlchemy()
 
 urlparse.uses_netloc.append('postgres')
-url = urlparse.urlparse(os.environ['DATABASE_URL'])
+# url = urlparse.urlparse(os.environ['DATABASE_URL'])
 
 
 def connect_to_db(app, db_uri="postgresql:///doglog"):
