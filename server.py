@@ -234,6 +234,35 @@ def processes_logout():
     flash("You've successfully logged out!")
     return redirect('/')
 
+
+# -------------------------- LOGGING IN/OUT WITH FB ----------------------------
+
+@app.route('/fb_oauth', methods=['POST'])
+def login_with_facebook():
+    """With signing in with FB oauth, check if user exists and create new record if needed."""
+
+    email = request.form.get("email")
+    user = User.get_user_by_email(email)
+
+    if not user: 
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        username = request.form.get('facebook_id')
+        password = None
+        user = User.add_new_user_to_db(first_name,
+                                       last_name,
+                                       username,
+                                       email,
+                                       password,
+                                       )
+
+    session['user_id'] = user.user_id
+    session['username'] = str(user.username)
+    print "FB oauth complete. Added user_id to session."
+    
+    return user.username
+
+
 # ------------------------------ STARTING SERVER -------------------------------
 if __name__ == "__main__":
 

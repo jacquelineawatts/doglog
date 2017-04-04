@@ -68,6 +68,19 @@ class User(db.Model):
         except MultipleResultsFound:
             return None
 
+    @classmethod
+    def get_user_by_email(cls, email):
+        """Given an email address, returns user object."""
+
+        try:
+            return User.query.filter_by(email=email).one()
+
+        except NoResultFound:
+            return None
+
+        except MultipleResultsFound:
+            print "Whoa, weird stuff happening. Multiple users with that email."
+            return User.query.filter_by(email=email).first()
 
     def get_all_pets(self):
         """Given a user, see all associated pets. """
